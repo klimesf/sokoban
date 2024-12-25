@@ -7,11 +7,13 @@
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "scripts": {
     "start": "parcel",
-    "build": "parcel build",
+    "build": "parcel build --public-url ./ --no-scope-hoist",
+    "push-gh-pages": "push-dir --dir=dist --branch=gh-pages --cleanup --verbose",
     "check": "tsc --noEmit"
   },
   "devDependencies": {
     "parcel": "^2.13.3",
-    "prettier": "^3.4.2"
+    "prettier": "^3.4.2",
+    "push-dir": "^0.4.1"
   }
 }
