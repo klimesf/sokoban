@@ -1,0 +1,17 @@
+{
+  "name": "sokoban",
+  "version": "1.0.0",
+  "source": "src/index.html",
+  "author": "Filip Klimeš <filip@filipklimes.cz>",
+  "license": "MIT",
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "scripts": {
+    "start": "parcel",
+    "build": "parcel build",
+    "check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "parcel": "^2.13.3",
+    "prettier": "^3.4.2"
+  }
+}
