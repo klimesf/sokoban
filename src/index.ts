@@ -10,11 +10,10 @@ const map = `
 ##        []      ##
 ####################`;
 
-let matrix: String[][] = map
+let matrix: string[][] = map
   .trim()
   .split("\n")
   .map((x: string) => {
-    console.log(x);
     return x.split("");
   });
 
@@ -27,47 +26,94 @@ matrix.forEach((row, x) => {
   });
 });
 
-function movePlayer(e: KeyboardEvent) {
+function findObject(
+  pos: number[],
+  dir: number[],
+  visited: Set<string>,
+): any[][] {
+  if (visited.has(JSON.stringify(pos))) {
+    return [];
+  }
+  visited.add(JSON.stringify(pos));
+
+  let ans: any[][] = [];
   let [x, y] = pos;
-  switch (e.key) {
-    case "ArrowUp":
-      if (x > 0 && matrix[x - 1][y] == " ") {
-        matrix[x][y] = " ";
-        matrix[x - 1][y] = "@";
-        pos = [x - 1, y];
-      }
-      render();
+  switch (matrix[x][y]) {
+    case "@":
+      ans.push([pos[0], pos[1], matrix[x][y]]);
+      findObject([x + dir[0], y + dir[1]], dir, visited).forEach((res) =>
+        ans.push(res),
+      );
       break;
 
-    case "ArrowDown":
-      if (matrix[x + 1][y] == " ") {
-        matrix[x][y] = " ";
-        matrix[x + 1][y] = "@";
-        pos = [x + 1, y];
+    case "[":
+      ans.push([pos[0], pos[1], matrix[x][y]]);
+      if (JSON.stringify(dir) == "[0,-1]" || JSON.stringify(dir) == "[0,1]") {
+        findObject([x + dir[0], y + dir[1]], dir, visited).forEach((res) =>
+          ans.push(res),
+        );
+      } else {
+        findObject([x + dir[0], y + dir[1]], dir, visited).forEach((res) =>
+          ans.push(res),
+        );
+        findObject([x, y + 1], dir, visited).forEach((res) => ans.push(res));
       }
-      render();
       break;
 
-    case "ArrowRight":
-      if (matrix[x][y + 1] == " ") {
-        matrix[x][y] = " ";
-        matrix[x][y + 1] = "@";
-        pos = [x, y + 1];
+    case "]":
+      ans.push([pos[0], pos[1], matrix[x][y]]);
+      if (JSON.stringify(dir) == "[0,-1]" || JSON.stringify(dir) == "[0,1]") {
+        findObject([x + dir[0], y + dir[1]], dir, visited).forEach((res) =>
+          ans.push(res),
+        );
+      } else {
+        findObject([x + dir[0], y + dir[1]], dir, visited).forEach((res) =>
+          ans.push(res),
+        );
+        findObject([x, y - 1], dir, visited).forEach((res) => ans.push(res));
       }
-      render();
       break;
 
-    case "ArrowLeft":
-      if (matrix[x][y - 1] == " ") {
-        matrix[x][y] = " ";
-        matrix[x][y - 1] = "@";
-        pos = [x, y - 1];
-      }
-      render();
+    case " ":
+    case "#":
       break;
+  }
+  return ans;
+}
 
-    default:
-      break;
+function checkMove(obj: any[][], dir: number[]): boolean {
+  return obj.every((pos) => {
+    return matrix[pos[0] + dir[0]][pos[1] + dir[1]] != "#";
+  });
+}
+
+function pushObject(obj: any[][], dir: number[]) {
+  // Push to new positions
+  obj
+    .slice()
+    .reverse()
+    .forEach((pos) => {
+      matrix[pos[0] + dir[0]][pos[1] + dir[1]] = pos[2];
+    });
+
+  // Cleanup old positions
+  let newPositions = new Set();
+  obj.forEach((pos) => {
+    newPositions.add(JSON.stringify([pos[0] + dir[0], pos[1] + dir[1]]));
+  });
+  obj
+    .filter((pos) => !newPositions.has(JSON.stringify([pos[0], pos[1]])))
+    .forEach((pos) => {
+      matrix[pos[0]][pos[1]] = " ";
+    });
+}
+
+function movePlayer(dir: number[]) {
+  let obj = findObject(pos, dir, new Set());
+  if (checkMove(obj, dir)) {
+    pushObject(obj, dir);
+    matrix[pos[0]][pos[1]] = " ";
+    pos = [pos[0] + dir[0], pos[1] + dir[1]];
   }
 }
 
@@ -76,13 +122,28 @@ function render(): void {
   el.innerHTML = matrix.map((row) => row.join("")).join("\n");
 }
 
+function dirFromEvent(e: KeyboardEvent): number[] {
+  switch (e.key) {
+    case "ArrowUp":
+      return [-1, 0];
+    case "ArrowDown":
+      return [1, 0];
+    case "ArrowLeft":
+      return [0, -1];
+    case "ArrowRight":
+      return [0, 1];
+  }
+  throw "unknown key event";
+}
+
 window.addEventListener("keydown", (e) => {
   if (!["ArrowUp", "ArrowDown", "ArrowRight", "ArrowLeft"].includes(e.key)) {
     return e;
   }
 
   e.preventDefault();
-  movePlayer(e);
+  movePlayer(dirFromEvent(e));
+  render();
 });
 
 render();
