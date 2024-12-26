@@ -146,4 +146,28 @@ window.addEventListener("keydown", (e) => {
   render();
 });
 
+let upButton = document.getElementById("up")!!;
+upButton.addEventListener("click", () => {
+  movePlayer([-1, 0]);
+  render();
+});
+
+let downButton = document.getElementById("down")!!;
+downButton.addEventListener("click", () => {
+  movePlayer([1, 0]);
+  render();
+});
+
+let leftButton = document.getElementById("left")!!;
+leftButton.addEventListener("click", () => {
+  movePlayer([0, -1]);
+  render();
+});
+
+let rightButton = document.getElementById("right")!!;
+rightButton.addEventListener("click", () => {
+  movePlayer([0, 1]);
+  render();
+});
+
 render();
