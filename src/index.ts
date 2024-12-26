@@ -10,21 +10,25 @@ const map = `
 ##        []      ##
 ####################`;
 
-let matrix: string[][] = map
-  .trim()
-  .split("\n")
-  .map((x: string) => {
-    return x.split("");
-  });
-
+let matrix: string[][] = [];
 let pos: number[] = [0, 0];
-matrix.forEach((row, x) => {
-  row.forEach((col, y) => {
-    if (col == "@") {
-      pos = [x, y];
-    }
+
+function resetMap() {
+  matrix = map
+    .trim()
+    .split("\n")
+    .map((x: string) => {
+      return x.split("");
+    });
+
+  matrix.forEach((row, x) => {
+    row.forEach((col, y) => {
+      if (col == "@") {
+        pos = [x, y];
+      }
+    });
   });
-});
+}
 
 function findObject(
   pos: number[],
@@ -154,8 +158,16 @@ function dirFromEvent(e: KeyboardEvent): number[] {
 }
 
 window.addEventListener("keydown", (e) => {
-  if (!["ArrowUp", "ArrowDown", "ArrowRight", "ArrowLeft"].includes(e.key)) {
+  if (
+    !["ArrowUp", "ArrowDown", "ArrowRight", "ArrowLeft", "r"].includes(e.key)
+  ) {
     return e;
+  }
+
+  if (e.key == "r") {
+    resetMap();
+    render();
+    return;
   }
 
   e.preventDefault();
@@ -187,4 +199,11 @@ rightButton.addEventListener("click", () => {
   render();
 });
 
+let resetButton = document.getElementById("reset")!!;
+resetButton.addEventListener("click", () => {
+  resetMap();
+  render();
+});
+
+resetMap();
 render();

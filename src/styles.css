@@ -44,8 +44,14 @@ body {
 #up,
 #down,
 #left,
-#right {
+#right,
+#reset {
   cursor: pointer;
+}
+
+#reset {
+  font-size: 50%;
+  letter-spacing: 0;
 }
 
 .text-50 {
