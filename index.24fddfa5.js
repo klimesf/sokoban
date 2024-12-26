@@ -1,0 +1,21 @@
+!function(e,t,n,r,o){var i="undefined"!=typeof globalThis?globalThis:"undefined"!=typeof self?self:"undefined"!=typeof window?window:"undefined"!=typeof global?global:{},s="function"==typeof i[r]&&i[r],u=s.cache||{},c="undefined"!=typeof module&&"function"==typeof module.require&&module.require.bind(module);function f(t,n){if(!u[t]){if(!e[t]){var o="function"==typeof i[r]&&i[r];if(!n&&o)return o(t,!0);if(s)return s(t,!0);if(c&&"string"==typeof t)return c(t);var a=Error("Cannot find module '"+t+"'");throw a.code="MODULE_NOT_FOUND",a}l.resolve=function(n){var r=e[t][1][n];return null!=r?r:n},l.cache={};var d=u[t]=new f.Module(t);e[t][0].call(d.exports,l,d,d.exports,i)}return u[t].exports;function l(e){var t=l.resolve(e);return!1===t?{}:f(t)}}f.isParcelRequire=!0,f.Module=function(e){this.id=e,this.bundle=f,this.exports={}},f.modules=e,f.cache=u,f.parent=s,f.register=function(t,n){e[t]=[function(e,t){t.exports=n},{}]},Object.defineProperty(f,"root",{get:function(){return i[r]}}),i[r]=f;for(var a=0;a<t.length;a++)f(t[a]);if(n){var d=f(n);"object"==typeof exports&&"undefined"!=typeof module?module.exports=d:"function"==typeof define&&define.amd&&define(function(){return d})}}({lyLMh:[function(e,t,n,r){let o=[`
+####################
+##    []    []  []##
+##            []  ##
+##  [][]    []  []##
+##    []@     []  ##
+##[]##    []      ##
+##[]    []    []  ##
+##  [][]  []  [][]##
+##        []      ##
+####################`,`
+########        
+###    #####    
+##         #    
+###  ###   #####
+#XX  XX# []@   #
+#      # [][]  #
+#XX    #       #
+################
+`],i=[],s=[],u=[0,0],c=0,f=document.getElementById("you-win"),a=document.getElementById("steps");function d(e){s=e.trim().split("\n").map(e=>e.split("")),i=[],s.forEach((e,t)=>{e.forEach((e,n)=>{"@"==e&&(u=[t,n]),"X"==e&&i.push([t,n])})}),c=0,f.classList.remove("show"),a.innerText=`steps: ${c}`}function l(e){let t=function e(t,n,r){if(r.has(JSON.stringify(t)))return[];r.add(JSON.stringify(t));let o=[],[i,u]=t;switch(s[i][u]){case"@":o.push([t[0],t[1],s[i][u]]),e([i+n[0],u+n[1]],n,r).forEach(e=>o.push(e));break;case"[":o.push([t[0],t[1],s[i][u]]),"[0,-1]"==JSON.stringify(n)||"[0,1]"==JSON.stringify(n)?e([i+n[0],u+n[1]],n,r).forEach(e=>o.push(e)):(e([i+n[0],u+n[1]],n,r).forEach(e=>o.push(e)),e([i,u+1],n,r).forEach(e=>o.push(e)));break;case"]":o.push([t[0],t[1],s[i][u]]),"[0,-1]"==JSON.stringify(n)||"[0,1]"==JSON.stringify(n)?e([i+n[0],u+n[1]],n,r).forEach(e=>o.push(e)):(e([i+n[0],u+n[1]],n,r).forEach(e=>o.push(e)),e([i,u-1],n,r).forEach(e=>o.push(e)))}return o}(u,e,new Set);t.every(t=>"#"!=s[t[0]+e[0]][t[1]+e[1]])&&(!function(e,t){e.slice().reverse().forEach(e=>{s[e[0]+t[0]][e[1]+t[1]]=e[2]});let n=new Set;e.forEach(e=>{n.add(JSON.stringify([e[0]+t[0],e[1]+t[1]]))}),e.filter(e=>!n.has(JSON.stringify([e[0],e[1]]))).forEach(e=>{s[e[0]][e[1]]=" "})}(t,e),s[u[0]][u[1]]=" ",u=[u[0]+e[0],u[1]+e[1]],c+=1,a.innerText=`steps: ${c}`)}let p=document.getElementById("matrix");function h(){let e=0;i.forEach(([t,n])=>{" "==s[t][n]?s[t][n]="X":"X"!=s[t][n]&&(e+=1)}),e==i.length&&(f.innerText=`You win in ${c} steps`,f.classList.add("show")),p.innerHTML=s.map(e=>e.map(e=>{switch(e){case" ":return"&nbsp";case"#":return'<span class="text-50">#</span>';case"@":return'<span class="text-player">@</span>';case"X":return'<span class="text-target">X</span>';default:return e}}).join("")).join("<br/>")}window.addEventListener("keydown",e=>{if(!["ArrowUp","ArrowDown","ArrowRight","ArrowLeft","r"].includes(e.key))return e;if("r"==e.key){d(o[1]),h();return}e.preventDefault(),l(function(e){switch(e.key){case"ArrowUp":return[-1,0];case"ArrowDown":return[1,0];case"ArrowLeft":return[0,-1];case"ArrowRight":return[0,1]}throw"unknown key event"}(e)),h()}),document.getElementById("up").addEventListener("click",()=>{l([-1,0]),h()}),document.getElementById("down").addEventListener("click",()=>{l([1,0]),h()}),document.getElementById("left").addEventListener("click",()=>{l([0,-1]),h()}),document.getElementById("right").addEventListener("click",()=>{l([0,1]),h()}),document.getElementById("reset").addEventListener("click",()=>{d(o[1]),h()}),d(o[1]),h()},{}]},["lyLMh"],"lyLMh","parcelRequire94c2");
+//# sourceMappingURL=index.24fddfa5.js.map
