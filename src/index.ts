@@ -119,7 +119,24 @@ function movePlayer(dir: number[]) {
 
 let el: HTMLElement = document.getElementById("matrix")!!;
 function render(): void {
-  el.innerHTML = matrix.map((row) => row.join("")).join("\n");
+  el.innerHTML = matrix
+    .map((row) =>
+      row
+        .map((c) => {
+          switch (c) {
+            case " ":
+              return "&nbsp";
+            case "#":
+              return '<span class="text-50">#</span>';
+            case "@":
+              return '<span class="text-player">@</span>';
+            default:
+              return c;
+          }
+        })
+        .join(""),
+    )
+    .join("<br/>");
 }
 
 function dirFromEvent(e: KeyboardEvent): number[] {

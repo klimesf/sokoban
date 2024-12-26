@@ -47,3 +47,15 @@ body {
 #right {
   cursor: pointer;
 }
+
+.text-50 {
+  color: #666;
+}
+
+.text-100 {
+  color: #ddd;
+}
+
+.text-player {
+  color: red;
+}
